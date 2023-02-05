@@ -14,15 +14,17 @@ class MailMessage extends Mailable
     use Queueable, SerializesModels;
 
     public $email;
+    public $otp; //add
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($email)
+    public function __construct($email, $otp) //add $otp
     {
         $this->email = $email;
+        $this->otp = $otp; //add
     }
 
     /**

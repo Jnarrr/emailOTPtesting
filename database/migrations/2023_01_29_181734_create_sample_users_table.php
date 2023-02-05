@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('sample_users', function (Blueprint $table) {
             $table->id();
             $table->string("email");
+            $table->string("otp");
+            $table->string("is_verified")->default("false");
             $table->timestamps();
         });
     }

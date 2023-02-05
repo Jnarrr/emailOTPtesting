@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/sendEmail', [sampleUserController::class, 'sendMail']);
+Route::post('/verifyEmail', [sampleUserController::class, 'verifyEmail']);

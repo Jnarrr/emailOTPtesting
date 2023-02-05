@@ -25,13 +25,15 @@ class sampleUserController extends Controller
         }
 
         $email = $request->all()['email'];
+        $otp = rand(100000,999999); //add
 
         $sampleuser = sampleUser::create([
-            'email' => $email
+            'email' => $email,
+            'otp' => $otp //add
         ]);
 
         if($sampleuser){
-            Mail::to($email)->send(new MailMessage($email));
+            Mail::to($email)->send(new MailMessage($email, $otp)); // add $otp
             return new JsonResponse(
                 [
                     'success' => true,
@@ -39,6 +41,30 @@ class sampleUserController extends Controller
                 ], 200
             );
         }
+    }
 
+    public function verifyEmail(Request $request){
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|email|max:191',
+            'otp' => 'required|max:191'
+        ]);
+
+        if ($validator->fails()){
+            return new JsonResponse(
+                [
+                    'success' => false, 
+                    'message' => $validator->errors() 
+                ], 422);
+        }
+
+        $user = sampleUser::where([['email','=',$request->email],['otp','=',$request->otp]])->first();
+        if($user){
+            sampleUser::where('email','=',$request->email)->update(['otp' => '000000', 'is_verified' => 'true']);
+
+            return response(["status" => 200, "message" => "Success"]);
+        }
+        else{
+            return response(["status" => 401, 'message' => 'Invalid']);
+        }
     }
 }

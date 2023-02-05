@@ -6,7 +6,7 @@ Dear {{ $email }},
 We look forward to have a deeper connection with you, 
 Kindly enter the OTP code below to verify your account.
 
-51082
+# Code: {{ $otp }}
 
 <x-mail::button :url="'https://www.facebook.com/jnar.jnar.jnar'">
 Developer
